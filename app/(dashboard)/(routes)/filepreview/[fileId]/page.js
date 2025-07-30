@@ -7,7 +7,7 @@ import FileImage from '../_components/FileImage';
 import FileDetail from '../_components/FileDetail';
 import { SquareArrowLeft } from 'lucide-react';
 import Link from 'next/link';
-import { setActiveIndex } from '../../../_components/Sidebar';
+
 
 function page() {
   const {fileId} = useParams();
@@ -27,19 +27,19 @@ function page() {
         })
       }
     }
+    
     fetchProduct();
-  },[]);
+  },[fileId]);
 
   const updatePassword = async(password,alert) => {
     const {data,error} = await Supabase.from('userfiles').update({'password': password}).eq('fileId',fileId).select();
     if(error){
-      alert(error);
       console.error("Error updating password:",error);
       return;
     }else if(data){
       console.log("Password updated");
       console.log(data);
-      alert && Swal.fire({
+      Swal.fire({
         title : "Password updated",
         icon : "success",
         allowOutsideClick: false,
@@ -49,16 +49,22 @@ function page() {
   };
   return (
     <div>
-      <Link href="/files" onClick={()=>{setActiveIndex(1)}}>
-      <button type="button" className='flex gap-1 border rounded-md shadow-sm p-2 mb-2 items-center font-semibold'>
-        <SquareArrowLeft />
-        <h1>Go to Files</h1>
-      </button>
-      </Link>
-      <div className="flex flex-col gap-3 md:flex-row items-start">
-        <FileImage file={file} />
-        <FileDetail file={file} update={updatePassword} />
-      </div>
+      {file ? (
+        <>
+          <Link href="/files">
+            <button type="button" className='flex gap-1 border rounded-md shadow-sm p-2 mb-2 items-center font-semibold'>
+              <SquareArrowLeft />
+              <h1>Go to Files</h1>
+            </button>
+          </Link>
+          <div className="flex flex-col gap-3 md:flex-row items-start">
+            <FileImage file={file} supabase={Supabase} />
+            <FileDetail file={file} update={updatePassword} />
+          </div>
+        </>
+      ) : (
+        <h1>Loading...</h1>
+      )}
     </div>
   )
 }

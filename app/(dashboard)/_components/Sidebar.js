@@ -53,8 +53,6 @@ function Sidebar({setMobile}) {
     </div>
   )
 }
-export const setActiveIndex = (index) => {
-  setActiveIndex(index);
-}
+
 
 export default Sidebar

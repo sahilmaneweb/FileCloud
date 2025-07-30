@@ -29,8 +29,8 @@ function FileDetail({file, update}) {
    }
 
    const sendEmail = async() => {
-   
-    const {data, error} = await axios.post('http://localhost:3000/api/send', {senderName : user.fullName,
+
+    const {data, error} = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}api/send`, {senderName : user.fullName,
       receiverEmail : email,
       fileName: file.fileName,
       fileSize: file.fileSize,
@@ -40,6 +40,12 @@ function FileDetail({file, update}) {
     if(data){
       console.log("Email sent");
       setEmail("");
+      alert && Swal.fire({
+              title : "Email Sent Successfully !!",
+              icon : "success",
+              allowOutsideClick: false,
+              showCloseButton: true
+            });
    }else if(error){
     console.log(error); 
    }

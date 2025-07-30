@@ -4,11 +4,13 @@ import { useUser } from '@clerk/nextjs';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react'
 
+
 function page() {
   const { user } = useUser();
   const [files, setFiles] = useState([]);
 
   useEffect(() => {
+    
   if (!user) return;
     const fetchFiles = async () => {
       const email = user.primaryEmailAddress?.emailAddress;
@@ -52,7 +54,7 @@ function page() {
         </div>
         {
           files.map((file)=>(
-            <div className='flex justify-between items-center px-2 py-1 text-[16px] text-gray-600 border-b-2'>
+            <div className='flex justify-between items-center px-2 py-1 text-[16px] text-gray-600 border-b-2' key={file.fileId}>
               <div className='grow'>{file.fileName}</div>
               <div className='w-[150px] text-center'>{file.fileType}</div>
               <div className='w-[150px] text-center'>{file.fileSize}</div>

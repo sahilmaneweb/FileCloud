@@ -3,7 +3,7 @@ import Supabase from '../../_lib/Supabase';
 import Swal from 'sweetalert2';
 import Image from 'next/image';
 import { useParams } from 'next/navigation';
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import FileLayout from '../_components/FileLayout';
 
 function page() {
@@ -28,8 +28,16 @@ function page() {
     }, []);
   return (
     <div className='bg-slate-200 flex flex-col justify-center items-center gap-3 h-screen px-4'>
-        <Image src={`/logo.jpg`} width={200} height={150} className='mix-blend-multiply' />
-        <FileLayout file={file} />
+        {
+            file ? (
+                <><FileLayout file={file} /></>
+            ) : (
+                <div className='flex flex-col items-center justify-center gap-3'>
+                    <Image src={`/image.png`} width={100} height={100} />
+                    <h1 className='text-2xl font-semibold'>Loading...</h1>
+                </div>
+            )
+        }
     </div>
   )
 }

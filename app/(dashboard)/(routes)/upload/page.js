@@ -1,16 +1,18 @@
 "use client"
  import { useUser} from '@clerk/nextjs'
-import React from 'react'
+import React, { useEffect } from 'react'
 import UploadForm from '../../_components/UploadForm'
 import Supabase from '../../../_lib/Supabase'
 import Swal from 'sweetalert2'
 import { useRouter } from 'next/navigation'
-import { setActiveIndex } from '../../_components/Sidebar'
+
 
 function page() {
     const {user} = useUser();
     const base = process.env.NEXT_PUBLIC_BASE_URL;
     const router = useRouter();
+
+    
 
   const getUrl = (filePath) => {
     const {data} = Supabase.storage.from('uploadfiles').getPublicUrl(filePath);
@@ -21,7 +23,13 @@ function page() {
   const uploadFile = async(file, setFile, setPending) => {
     try {
       setPending(true);
-      let {data} = await Supabase.storage.from('uploadfiles').upload("public/"+file?.name,file);
+      console.log(file);
+      let {data, error} = await Supabase.storage.from('uploadfiles').upload("public/"+user.primaryEmailAddress.emailAddress +"/"+file?.name, file);
+
+      if(error){
+        throw error;
+      }
+
       let fileId;
       fileId = Date.now();
       let res = await Supabase.from('userfiles').insert({
@@ -33,10 +41,11 @@ function page() {
         fileType:file?.type,
         fileSize:((file?.size/(1024*1024)).toFixed(3)),
         fileUrl: getUrl(data.path),
-        shortUrl : `${base}${fileId}`
+        filePath: "public/"+user.primaryEmailAddress.emailAddress +"/"+file?.name,
+        shortUrl : `${base}t/${fileId}`
       }).select();
       if(res.data){
-        
+        console.log(res.data);
         Swal.fire({
           title: "File Uploaded Successfully",
           text : `${file.name} uploaded succesfully`,
@@ -47,7 +56,7 @@ function page() {
           confirmButtonText: "<h1>Yes</h1>"
         });
         router.push(`filepreview/${fileId}`);
-        setActiveIndex(1);
+        
       }else if(res.error){
         Swal.fire({
           title : res.error.message,
@@ -63,7 +72,7 @@ function page() {
       setFile(false);
     } catch (error) {
       console.log("Error occured while file upload");
-      console.error(error);
+      console.error(error.message);
       setPending(false);
     }
   }
