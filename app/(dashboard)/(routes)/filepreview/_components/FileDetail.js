@@ -3,12 +3,15 @@ import { useUser } from '@clerk/nextjs';
 import axios from 'axios';
 import { Clipboard } from 'lucide-react';
 import React, { useEffect, useState } from 'react'
+import toast from 'react-hot-toast';
 
 function FileDetail({file, update}) {
   const {user} = useUser();
   const [password,setPassword] = useState("");
   const [enablePassword,setEnablePassword] = useState(false);
   const [email, setEmail] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  
   useEffect(()=>{ 
     function fetchPassword(){
       setEnablePassword(!!file.password);
@@ -20,7 +23,7 @@ function FileDetail({file, update}) {
   const handleEnable = (e) => {
     setEnablePassword(e.target.checked);
     if(!e.target.checked){
-      setPassword(null);
+      setPassword("");
       update(null,false);
     }
   }
@@ -40,15 +43,21 @@ function FileDetail({file, update}) {
     if(data){
       console.log("Email sent");
       setEmail("");
-      alert && Swal.fire({
-              title : "Email Sent Successfully !!",
-              icon : "success",
-              allowOutsideClick: false,
-              showCloseButton: true
-            });
+      toast.success("Email sent successfully");
    }else if(error){
-    console.log(error); 
+    console.log(error);
+    toast.error("Error sending email");
    }
+  }
+
+  const copyClipboard = () => {
+    navigator.clipboard.writeText(file.shortUrl);
+    toast.success("Short URL copied to clipboard");
+  }
+
+  const isValidEmail = (email) => {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(email);
   }
 
   return (
@@ -59,7 +68,7 @@ function FileDetail({file, update}) {
         <label className='text-lg font-semibold'>Short URL:</label>
         <div className='flex w-full gap-2 items-center'>
         <input type="url" value={file.shortUrl} disabled className='grow p-1 rounded-sm border border-slate-400 disabled:bg-slate-100 disabled:text-gray-600' />
-        <span className='cursor-pointer block p-1 border rounded-md bg-slate-100'>
+        <span onClick={copyClipboard} className='cursor-pointer block p-1 border rounded-md bg-slate-100'>
           <Clipboard color='gray' />
         </span>
         </div>
@@ -72,8 +81,8 @@ function FileDetail({file, update}) {
           Enable Password
         </label>
         {enablePassword && <div className='flex items-center gap-2'>
-          <input type='password' value={password} onChange={(e)=>setPassword(e.target.value)} placeholder='Enter Password' className='grow p-2 rounded-md border border-slate-400' />
-          <button type="button" onClick={handleUpdate} className='bg-primary rounded-md p-1 hover:bg-blue-800 px-7 font-semibold text-white text-lg'>Set</button>
+          <input type={showPassword ? "text" : "password"} value={password} onChange={(e)=>setPassword(e.target.value)} placeholder='Enter Password' className='grow p-2 rounded-md border border-slate-400' />
+          <button type="button" onClick={handleUpdate} disabled={password.length < 8} className='bg-primary disabled:bg-gray-600 rounded-md p-1 hover:bg-blue-800 px-7 font-semibold text-white text-lg'>Set</button>
           </div>}
       </div>
 
@@ -82,7 +91,7 @@ function FileDetail({file, update}) {
             <label className='text-lg font-semibold'>Send Email:</label>
             <div className='flex gap-2 items-center'>
               <input type="email" value={email} onChange={(e)=>setEmail(e.target.value)} placeholder='Enter Email' className='grow p-2 rounded-md border border-slate-400' />
-              <button type="button" className='bg-primary rounded-md p-1 hover:bg-blue-800 px-5 font-semibold text-white text-lg' disabled={!email} onClick={sendEmail}>Send</button>
+              <button type="button"  className='bg-primary rounded-md p-1 hover:bg-blue-800 px-5 disabled:bg-gray-600 font-semibold text-white text-lg' disabled={!isValidEmail(email)} onClick={sendEmail}>Send</button>
             </div>
           </div>
     </div>

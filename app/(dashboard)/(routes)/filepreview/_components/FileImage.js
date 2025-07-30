@@ -1,5 +1,7 @@
 import { useRouter } from 'next/navigation';
 import { useState } from 'react'
+import toast from 'react-hot-toast';
+import Swal from 'sweetalert2';
 
 function FileImage({file, supabase}) {
   const [isVisible, setVisible] = useState(file?.isActive);
@@ -12,6 +14,7 @@ function FileImage({file, supabase}) {
       return;
     }
     setVisible(!isVisible);
+    toast.success(`File is now ${!isVisible ? 'visible' : 'hidden'}`);
     console.log("Visibility updated:", data);
   }
 
@@ -57,7 +60,7 @@ function FileImage({file, supabase}) {
       </h2>
       <div className='flex gap-2 justify-center items-center'>
         <button type="button" className='bg-primary text-white rounded-md p-2 text-lg' onClick={toggleVisibility}>{isVisible ? "Visible" : "Hidden"}</button>
-        <button type="button" className='bg-primary text-white rounded-md p-2 text-lg' onClick={deleteImage}>Delete</button>
+        <button type="button" className='bg-red-700 text-white rounded-md p-2 text-lg' onClick={deleteImage}>Delete</button>
       </div>
     </div>
   )

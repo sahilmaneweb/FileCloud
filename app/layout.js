@@ -1,4 +1,5 @@
 
+import { Toaster } from "react-hot-toast";
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 
@@ -11,10 +12,9 @@ export default function RootLayout({ children }) {
   return (
     <ClerkProvider afterSignOutUrl="/">
       <html lang="en">
-        <body
-          className={``}
-        >
+        <body className={``}>
           {children}
+        <Toaster position="top-right" reverseOrder={false}/>
         </body>
       </html>
     </ClerkProvider>

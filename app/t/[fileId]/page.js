@@ -33,7 +33,7 @@ function page() {
                 <><FileLayout file={file} /></>
             ) : (
                 <div className='flex flex-col items-center justify-center gap-3'>
-                    <Image src={`/image.png`} width={100} height={100} />
+                    <Image src={`/image.png`} width={100} height={100} alt='file image'/>
                     <h1 className='text-2xl font-semibold'>Loading...</h1>
                 </div>
             )

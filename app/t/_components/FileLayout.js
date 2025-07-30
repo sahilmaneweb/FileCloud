@@ -29,7 +29,7 @@ function FileLayout({file}) {
         <h1 className='text-3xl text-center font-bold'>
             <span className='text-primary'>{file.userName}</span> shared a File with you
         </h1>
-        <Image src={`/image.png`} width={100} height={100} />
+        <Image src={`/image.png`} width={100} height={100} alt='file image' />
         <div className='flex justify-center flex-wrap items-center gap-1'>
             <h1>{file.fileName}</h1> 
             <Zap size={20} color='yellow'/>

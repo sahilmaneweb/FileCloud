@@ -7,6 +7,7 @@ import FileImage from '../_components/FileImage';
 import FileDetail from '../_components/FileDetail';
 import { SquareArrowLeft } from 'lucide-react';
 import Link from 'next/link';
+import toast from 'react-hot-toast';
 
 
 function page() {
@@ -39,12 +40,7 @@ function page() {
     }else if(data){
       console.log("Password updated");
       console.log(data);
-      Swal.fire({
-        title : "Password updated",
-        icon : "success",
-        allowOutsideClick: false,
-        showCloseButton: true
-      });
+      toast.success("Password updated successfully");
     }
   };
   return (
