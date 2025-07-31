@@ -26,7 +26,12 @@ function UploadForm({uploadFile}) {
           file && <FileField file={file} lock={pending} remove={removeFile} />
         }
         {
-          pending?(<ProgreeBar/>):(<button type="button" disabled={!file} onClick={()=>uploadFile(file,setFile,setPending)} className={`bg-blue-600 hover:bg-blue-800 my-3 mx-auto block disabled:bg-gray-600 text-white text-[20px] px-10 py-2 rounded-lg`}>
+          pending?( 
+            <>
+              <ProgreeBar/>
+              <h2 className='flex justify-center items-center font-bold'>File is being upload do not close page ...</h2>
+            </>
+          ):(<button type="button" disabled={!file} onClick={()=>uploadFile(file,setFile,setPending)} className={`bg-blue-600 hover:bg-blue-800 my-3 mx-auto block disabled:bg-gray-600 text-white text-[20px] px-10 py-2 rounded-lg`}>
             Upload
           </button>)
         }
