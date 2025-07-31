@@ -1,4 +1,3 @@
-````markdown
 # 📂 FileCloud
 
 FileCloud is a modern and secure file storage and sharing platform built with **Next.js**, **Clerk authentication**, **Supabase storage**, and **Nodemailer** for email notifications. It allows users to upload, manage, and share files securely with features like **short URLs**, **password protection**, and **email sharing**.
@@ -30,11 +29,11 @@ FileCloud is a modern and secure file storage and sharing platform built with **
 
 Clone the repository and install dependencies:
 
-```bash
+```
 git clone [https://github.com/sahilmaneweb/FileCloud.git](https://github.com/sahilmaneweb/FileCloud.git)
 cd FileCloud
 npm install
-````
+```
 
 ### ⚙️ Environment Variables
 
