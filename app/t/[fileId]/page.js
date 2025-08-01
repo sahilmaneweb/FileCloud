@@ -11,11 +11,11 @@ function page() {
     const [file,setFile] = useState(false);
     useEffect(() => { 
         async function fetchProduct() {
-            const {data,error} = await Supabase.from('userfiles').select().eq('fileId',fileId);
+            const {data} = await Supabase.from('userfiles').select().eq('fileId',fileId);
             if(data && data.length > 0){
                 console.log(data[0]);
                 setFile(data[0]);
-            } else if(error){
+            } else{
                 Swal.fire({
                     title : "No such file exists",
                     icon : "error",

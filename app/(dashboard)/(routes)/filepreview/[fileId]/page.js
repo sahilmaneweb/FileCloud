@@ -32,7 +32,7 @@ function page() {
     fetchProduct();
   },[fileId]);
 
-  const updatePassword = async(password,alert) => {
+  const updatePassword = async(password) => {
     const {data,error} = await Supabase.from('userfiles').update({'password': password}).eq('fileId',fileId).select();
     if(error){
       console.error("Error updating password:",error);
@@ -40,9 +40,14 @@ function page() {
     }else if(data){
       console.log("Password updated");
       console.log(data);
-      toast.success("Password updated successfully");
+      if(password === null || password === ""){
+        toast.success("Password removed successfully");
+    }else{
+        toast.success("Password updated successfully");
+      }
     }
   };
+
   return (
     <div>
       {file ? (

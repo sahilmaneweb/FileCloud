@@ -24,11 +24,11 @@ function FileDetail({file, update}) {
     setEnablePassword(e.target.checked);
     if(!e.target.checked){
       setPassword("");
-      update(null,false);
+      update(null);
     }
   }
   const handleUpdate = () => { 
-    update(password,true);
+    update(password);
    }
 
    const sendEmail = async() => {

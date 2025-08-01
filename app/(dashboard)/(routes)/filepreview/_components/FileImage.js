@@ -50,7 +50,7 @@ function FileImage({file, supabase}) {
       <div className='w-10/12 object-center h-36 object-cover border rounded-md shadow-sm overflow-hidden'>
         <img src={file.fileUrl} className='w-full h-full' />
       </div>
-      <h1 className='text-2xl font-semibold'>
+      <h1 className='text-xl font-semibold'>
         {file.fileName}
       </h1>
       <h2 className='flex text-slate-500 gap-2 items-center'>
