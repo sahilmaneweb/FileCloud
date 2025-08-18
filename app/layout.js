@@ -12,6 +12,10 @@ export default function RootLayout({ children }) {
   return (
     <ClerkProvider afterSignOutUrl="/">
       <html lang="en">
+        <head>
+          <link rel="icon" href="/logo-icon.png" type="image/png" />
+          <title>FileCloud</title>
+        </head>
         <body className={``}>
           {children}
         <Toaster position="top-right" reverseOrder={false}/>
